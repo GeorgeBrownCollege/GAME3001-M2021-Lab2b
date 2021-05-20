@@ -46,7 +46,11 @@ void PlayScene::start()
 {
 	// Set GUI Title
 	m_guiTitle = "Play Scene";
-	
+
+	// Add Target to Scene
+	m_pTarget = new Target();
+	m_pTarget->getTransform()->position = glm::vec2(600.0f, 300.0f);
+	addChild(m_pTarget);
 
 	ImGuiWindowFrame::Instance().setGUIFunction(std::bind(&PlayScene::GUI_Function, this));
 }
@@ -59,7 +63,7 @@ void PlayScene::GUI_Function() const
 	// See examples by uncommenting the following - also look at imgui_demo.cpp in the IMGUI filter
 	//ImGui::ShowDemoWindow();
 	
-	ImGui::Begin("Your Window Title Goes Here", NULL, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoMove);
+	ImGui::Begin("GAME3001 - M2021 - Lab 2", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar);
 
 	if(ImGui::Button("My Button"))
 	{
@@ -68,13 +72,10 @@ void PlayScene::GUI_Function() const
 
 	ImGui::Separator();
 
-	static float float3[3] = { 0.0f, 1.0f, 1.5f };
-	if(ImGui::SliderFloat3("My Slider", float3, 0.0f, 2.0f))
+	static float target_position[2] = { m_pTarget->getTransform()->position.x, m_pTarget->getTransform()->position.y};
+	if(ImGui::SliderFloat2("Target Position", target_position, 0.0f, 800.0f))
 	{
-		std::cout << float3[0] << std::endl;
-		std::cout << float3[1] << std::endl;
-		std::cout << float3[2] << std::endl;
-		std::cout << "---------------------------\n";
+		m_pTarget->getTransform()->position = glm::vec2(target_position[0], target_position[1]);
 	}
 	
 	ImGui::End();
