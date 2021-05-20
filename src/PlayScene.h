@@ -3,6 +3,7 @@
 #define __PLAY_SCENE__
 
 #include "Scene.h"
+#include "StarShip.h"
 #include "Target.h"
 
 
@@ -27,6 +28,7 @@ private:
 
 	// Game Objects
 	Target* m_pTarget;
+	StarShip* m_pStarShip;
 };
 
 #endif /* defined (__PLAY_SCENE__) */
