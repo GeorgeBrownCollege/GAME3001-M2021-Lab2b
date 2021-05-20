@@ -1,6 +1,7 @@
 #include "StarShip.h"
 #include "TextureManager.h"
 #include "Util.h"
+#include <iostream>
 
 StarShip::StarShip()
 {
@@ -48,6 +49,18 @@ float StarShip::getMaxSpeed() const
 float StarShip::getTurRate() const
 {
 	return m_turnRate;
+}
+
+glm::vec2 StarShip::getDesiredVelocity() const
+{
+	return m_desiredVelocity;
+}
+
+void StarShip::setDesiredVelocity(const glm::vec2 target_position)
+{
+	m_desiredVelocity = Util::normalize(target_position - getTransform()->position) * m_maxSpeed;
+	getRigidBody()->velocity = m_desiredVelocity - getRigidBody()->velocity;
+	//std::cout << "Desired Velocity: (" << m_desiredVelocity.x << ", " << m_desiredVelocity.y << ")" << std::endl;
 }
 
 void StarShip::setMaxSpeed(const float speed)

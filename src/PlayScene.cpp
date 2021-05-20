@@ -22,9 +22,21 @@ void PlayScene::draw()
 	SDL_SetRenderDrawColor(Renderer::Instance().getRenderer(), 255, 255, 255, 255);
 }
 
+void PlayScene::moveStarShip() const
+{
+	if(m_bToggleSeek)
+	{
+		m_pStarShip->setDesiredVelocity(m_pTarget->getTransform()->position);
+		m_pStarShip->getRigidBody()->velocity = m_pStarShip->getDesiredVelocity();
+		m_pStarShip->getTransform()->position += m_pStarShip->getRigidBody()->velocity;
+	}
+}
+
 void PlayScene::update()
 {
 	updateDisplayList();
+
+	moveStarShip();
 }
 
 void PlayScene::clean()
@@ -60,7 +72,7 @@ void PlayScene::start()
 	ImGuiWindowFrame::Instance().setGUIFunction(std::bind(&PlayScene::GUI_Function, this));
 }
 
-void PlayScene::GUI_Function() const
+void PlayScene::GUI_Function()
 {
 	// Always open with a NewFrame
 	ImGui::NewFrame();
@@ -70,10 +82,12 @@ void PlayScene::GUI_Function() const
 	
 	ImGui::Begin("GAME3001 - M2021 - Lab 2", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_MenuBar);
 
-	if(ImGui::Button("My Button"))
+	/*if(ImGui::Button("Toggle Seek"))
 	{
-		std::cout << "My Button Pressed" << std::endl;
-	}
+		m_bToggleSeek = !m_bToggleSeek
+	}*/
+
+	ImGui::Checkbox("Toggle Seek", &m_bToggleSeek);
 
 	ImGui::Separator();
 
